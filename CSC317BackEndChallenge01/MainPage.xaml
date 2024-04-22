@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CSC317BackEndChallenge01.MainPage"
+             x:Name="page"
+             Disappearing="ExitApp">
+
+    <Grid RowDefinitions="50, *, 50">
+
+        <HorizontalStackLayout VerticalOptions="Center" Spacing="10">
+            <Picker SelectedIndex="0" WidthRequest="150"
+                    x:Name="pckNoteSelectionBox"
+                    BindingContext="{x:Reference page}"
+                    ItemsSource="{Binding Path=PickerViewData}"
+                    SelectedIndexChanged="LoadNote"
+                    />
+            <Button Text="New"    Clicked="AddNote" />
+            <Button Text="Delete" Clicked="RemoveNote"/>
+            <Button Text="Clear"  Clicked="ClearNotes"/>
+        </HorizontalStackLayout>
+        
+        <!--
+            Changes:
+                1. We removed the BindingContext tag and set the referenced property
+                   in the Binding data so we can add 2 bindings to the editor.
+                2. We then added a binding for the text.
+        -->
+        <Editor Grid.Row="1" Placeholder="Enter Text Here"
+                FontSize="{Binding Source={x:Reference slrFontSize}, Path=Value}"
+                x:Name="etrNoteView"
+                />
+        
+        
+
+        <HorizontalStackLayout Grid.Row="2" 
+                               VerticalOptions="Center" 
+                               Spacing="10" >
+            
+            <Label Text="Adjust Font Size" VerticalOptions="Center" />
+            <Entry Text="{Binding Mode=TwoWay, Path=Value}" 
+                   BindingContext="{x:Reference slrFontSize}"
+                   />
+            <Stepper x:Name="slrFontSize" Minimum="10" Maximum="50" Value="15" 
+                     ValueChanged="FontChanged"/>
+        </HorizontalStackLayout>
+    </Grid>
+    
+</ContentPage>
